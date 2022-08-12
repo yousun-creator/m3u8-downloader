@@ -370,7 +370,8 @@ func unix_merge_file(path string) {
 	cmd := `cat *.ts >> merge.tmp`
 	execUnixShell(cmd)
 	execUnixShell("rm -rf *.ts")
-	os.Rename("merge.tmp", "merge.mp4")
+	os.Rename("merge.tmp", "merge.ts")
+	execUnixShell("ffmpeg -i merge.ts -acodec copy -vcodec copy -absf aac_adtstoasc merge.mp4")
 	os.Chdir(pwd)
 }
 
