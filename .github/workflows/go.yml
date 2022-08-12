@@ -1,4 +1,4 @@
-name: Go
+name: Go-builder
 
 on:
   push:
@@ -11,15 +11,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
 
     - name: Set up Go
-      uses: actions/setup-go@v3
+      uses: actions/setup-go@v2
       with:
         go-version: 1.18
 
     - name: Build
-      run: go build -o m3u8-downloader
-
-    - name: Test
-      run: go build -o m3u8-downloader
+      run: go build -o ./Releases/m3u8-linux-amd64  m3u8-downloader.go
+      
+    - name: Upload binary artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: m3u8-linux-amd64
+        path: ./Releases/
+        if-no-files-found: error
