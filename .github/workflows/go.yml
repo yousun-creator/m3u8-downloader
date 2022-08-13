@@ -5,7 +5,8 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-
+env:
+  CGO_ENABLED: 0
 jobs:
 
   build:
@@ -19,7 +20,7 @@ jobs:
         go-version: 1.18
 
     - name: Build
-      run: go build -o ./Releases/m3u8-linux-amd64  m3u8-downloader.go
+      run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./Releases/m3u8-linux-amd64  m3u8-downloader.go
       
     - name: Upload binary artifacts
       uses: actions/upload-artifact@v2
